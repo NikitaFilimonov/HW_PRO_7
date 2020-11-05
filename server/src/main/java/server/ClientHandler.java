@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.logging.*;
 
 public class ClientHandler {
     DataInputStream in;
@@ -14,9 +15,16 @@ public class ClientHandler {
 
     private String nickname;
     private String login;
+    private static final Logger logger = Logger.getLogger(ClientHandler.class.getName());
 
     public ClientHandler(Server server, Socket socket) {
         try {
+            Handler fileHandler = new FileHandler("ClientHandler.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            fileHandler.setLevel(Level.FINE);
+            logger.addHandler(fileHandler);
+            logger.setUseParentHandlers(false);
+
             this.server = server;
             this.socket = socket;
             in = new DataInputStream(socket.getInputStream());
@@ -58,6 +66,7 @@ public class ClientHandler {
                                     nickname = newNick;
                                     sendMsg("/authok " + newNick);
                                     server.subscribe(this);
+                                    logger.log(Level.SEVERE, nickname + " подключился \n");
                                     socket.setSoTimeout(0);
                                     //==============//
 //                                    sendMsg(SQLHandler.getMessageForNick(nickname));
@@ -86,6 +95,7 @@ public class ClientHandler {
                                     continue;
                                 }
                                 server.privateMsg(this, token[1], token[2]);
+                                logger.log(Level.INFO, this.nickname + token[1] + token[2]);
                             }
 
                             //==============//
@@ -101,6 +111,7 @@ public class ClientHandler {
                                 if (server.getAuthService().changeNick(this.nickname, token[1])) {
                                     sendMsg("/yournickis " + token[1]);
                                     sendMsg("Ваш ник изменен на " + token[1]);
+                                    logger.log(Level.INFO, this.nickname + " поменял ник на " + token[1]);
                                     this.nickname = token[1];
                                     server.broadcastClientList();
                                 } else {
@@ -115,32 +126,36 @@ public class ClientHandler {
 
                 } catch (SocketTimeoutException e) {
                     sendMsg("/end");
-                    System.out.println("Client disconnected by timeout");
                 } catch (IOException e) {
                     e.printStackTrace();
+                    logger.log(Level.SEVERE, ClientHandler.class.getName());
                 } finally {
+                    logger.log(Level.SEVERE, nickname + " отключился");
                     server.unsubscribe(this);
-                    System.out.println("Client disconnected " + socket.getRemoteSocketAddress());
                     try {
                         socket.close();
                         in.close();
                         out.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        logger.log(Level.SEVERE, ClientHandler.class.getName(),e);
                     }
                 }
             }).start();
 
         } catch (IOException e) {
             e.printStackTrace();
+            logger.log(Level.SEVERE, ClientHandler.class.getName(),e);
         }
     }
 
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
+            logger.log(Level.INFO, msg);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.log(Level.SEVERE, ClientHandler.class.getName(),e);
         }
     }
 
