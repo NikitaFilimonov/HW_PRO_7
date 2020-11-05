@@ -1,0 +1,11 @@
+nick1 : asdf 
+qwerty : ewrw wqerwer wer we
+qwerty : qwer wer wer 
+qwerty : qwer we rwqe rwq
+[ qwerty ] private [ nick1 ] : hello
+[ nick1 ] private [ qwerty ] : hi
+nick1 : bla bla bla
+asd : sadf sdaf 
+asd : as df sda
+nick1 : s dfas df
+qwerty : s adfsd fsda f

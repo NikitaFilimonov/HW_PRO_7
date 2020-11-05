@@ -1,0 +1,19 @@
+/*https://www.materialpalette.com/colors*/
+/*@import "amber-color.css";*/
+@import "lime-color.css";
+{
+    -my-color-50:-fx-color-50;
+    -my-color-100:-fx-color-100;
+    -my-color-200:-fx-color-200;
+    -my-color-300:-fx-color-300;
+    -my-color-400:-fx-color-400;
+    -my-color-500:-fx-color-500;
+    -my-color-600:-fx-color-600;
+    -my-color-700:-fx-color-700;
+    -my-color-800:-fx-color-800;
+    -my-color-900:-fx-color-900;
+    -my-color-A100:-fx-color-A100;
+    -my-color-A200:-fx-color-A200;
+    -my-color-A400:-fx-color-A400;
+    -my-color-A700:-fx-color-A700;
+}

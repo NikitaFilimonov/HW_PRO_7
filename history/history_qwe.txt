@@ -1,0 +1,22 @@
+qwerty : ewrw wqerwer wer we
+qwerty : qwer wer wer 
+qwerty : qwer we rwqe rwq
+[ qwerty ] private [ nick1 ] : hello
+[ nick1 ] private [ qwerty ] : hi
+nick1 : bla bla bla
+[ qwerty ] private [ qwerty ] :  qweq weqweq w
+[ qwerty ] private [ qwerty ] : q ewqwe qwe qw
+asd : sadf sdaf 
+asd : as df sda
+nick1 : s dfas df
+qwerty : s adfsd fsda f
+zorro: e rtwert wertw ertwe rt
+zorro: we rtwe rtwert wert wer
+zorro: as dfsad 
+zorro: as dfsad f
+John_Connor : 222222222 2 2 2 22 2 
+zzzzzzzz : as dfsad f
+John_Connor : asdf asd f
+[ aaa ]: 123123123123
+[ aaa ] private [ John_Connor ] : 123123123123
+[ aaa ]: qweqweqweqweqw
