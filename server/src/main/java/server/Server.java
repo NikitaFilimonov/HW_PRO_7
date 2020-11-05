@@ -1,16 +1,35 @@
 package server;
 
+import sun.rmi.runtime.Log;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.*;
 
 public class Server {
     private List<ClientHandler> clients;
     private AuthService authService;
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
+
 
     public Server() {
+        Handler fileHandler = null;
+        try {
+            fileHandler = new FileHandler("Server.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            fileHandler.setLevel(Level.FINE);
+            logger.addHandler(fileHandler);
+            logger.setLevel(Level.SEVERE);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        logger.setUseParentHandlers(false);
+
         clients = new CopyOnWriteArrayList<>();
 //        authService = new SimpleAuthService();
         //==============//
@@ -26,10 +45,14 @@ public class Server {
 
         try {
             server = new ServerSocket(PORT);
-            System.out.println("Server started");
+            logger.log(Level.SEVERE,"Server started");
 
             while (true) {
                 socket = server.accept();
+                logger.log(Level.INFO, "Клиент подключился");
+                logger.log(Level.INFO, "socket.getRemoteSocketAddress(): " + socket.getRemoteSocketAddress());
+                logger.log(Level.INFO, "socket.getLocalSocketAddress(): " + socket.getLocalSocketAddress());
+
                 new ClientHandler(this, socket);
             }
 
@@ -46,6 +69,7 @@ public class Server {
                 server.close();
             } catch (IOException e) {
                 e.printStackTrace();
+                logger.log(Level.SEVERE, Server.class.getName(), e);
             }
         }
     }
